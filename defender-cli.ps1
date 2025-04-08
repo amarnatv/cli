@@ -120,3 +120,4 @@ foreach ($InstallDir in $INSTALL_DIRS -split " ") {
 }
 Write-Output "Failed to install $CLI_NAME. Ensure one of the directories in PATH is writable or try running the script with elevated privileges."
 exit 1
+
