@@ -15,7 +15,6 @@ if ($args.Count -eq 1) {
 } else {
     Write-Host "Preparing to download the latest version of $CLI_NAME..."
 }
-Write-Output "done"
 
 # Detect operating system
 if ($env:OS -match "Windows_NT") {
@@ -85,8 +84,6 @@ if ($OS_TYPE -eq "windows") {
     chmod +x "$BINARY_NAME"
 }
 
-Write-Output $env:Path
-
 # Install the binary to a directory in PATH
 #if ($env:OS -match "Windows_NT") {
 #    $INSTALL_DIRS="$env:USERPROFILE"
@@ -97,15 +94,14 @@ Write-Output $env:Path
 #foreach ($InstallDir in $env:Path -split ";") {
 foreach ($InstallDir in $INSTALL_DIRS -split " ") {
     if (Test-Path $InstallDir) {
-        Write-Output "INSIDE.-!!!!!!!!!!!!!!!!!!!!!"
+
         $InstallDir = Join-Path -Path $InstallDir -ChildPath "MDC"
         if (-not (Test-Path $InstallDir)) {
             New-Item -ItemType Directory -Path $InstallDir | Out-Null
         }
-        Write-Output $InstallDir
 
         Move-Item -Path "$BINARY_NAME" -Destination "$InstallDir" -Force -ErrorAction Stop
-        Write-Output ""
+
         Write-Output "$CLI_NAME has been successfully installed in $InstallDir"
 
         # Add the install directory to PATH if not already present
