@@ -114,10 +114,13 @@ foreach ($InstallDir in $INSTALL_DIRS -split " ") {
             Write-Output "Added $InstallDir to the user PATH."
         }
 
+        Write-Output "Successfully installed $CLI_NAME in $InstallDir. Please relaunch command line and run MDC Defender!"
+        Write-Output "Example command: defender init"
+        Write-Output "      defender init"
+        Write-Output "      defender scan"
         exit 0
     
     }
 }
 Write-Output "Failed to install $CLI_NAME. Ensure one of the directories in PATH is writable or try running the script with elevated privileges."
 exit 1
-
