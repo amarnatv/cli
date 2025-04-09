@@ -68,7 +68,7 @@ if (-not $ARCH_TYPE) {
 #DOWNLOAD_URL="https://example.com/releases/$CLI_NAME/$CLI_VERSION/$OS_TYPE/$ARCH_TYPE/$BINARY_NAME"
 $DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/Defender.exe?raw=true"
 echo "Downloading $CLI_NAME from: $DOWNLOAD_URL"
-curl -L -o "$BINARY_NAME" "$DOWNLOAD_URL"
+Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
