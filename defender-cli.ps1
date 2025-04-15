@@ -75,6 +75,7 @@ Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME" -UseBasicParsing 
 #    Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
 #    exit 1
 #}
+exit 0
 # Set the executable attribute for Windows
 if ($OS_TYPE -eq "windows") {
     $acl = Get-Acl "$BINARY_NAME"
@@ -91,7 +92,7 @@ if ($OS_TYPE -eq "windows") {
 #} else {
 #    $INSTALL_DIRS="/usr/local/bin /usr/bin /opt/bin $home"
 #}
-exit 0
+
 
 #foreach ($InstallDir in $env:Path -split ";") {
 foreach ($InstallDir in $INSTALL_DIRS -split " ") {
