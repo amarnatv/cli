@@ -91,6 +91,7 @@ if ($OS_TYPE -eq "windows") {
 #} else {
 #    $INSTALL_DIRS="/usr/local/bin /usr/bin /opt/bin $home"
 #}
+exit 0
 
 #foreach ($InstallDir in $env:Path -split ";") {
 foreach ($InstallDir in $INSTALL_DIRS -split " ") {
