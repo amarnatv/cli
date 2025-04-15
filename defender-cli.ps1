@@ -69,13 +69,13 @@ if (-not $ARCH_TYPE) {
 $DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/README.md?raw=true"
 Write-Output "Downloading $CLI_NAME from: $DOWNLOAD_URL"
 Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME" -UseBasicParsing -TimeoutSec 600
-
+exit 0
 #if ($LASTEXITCODE -ne 0) {
 #if (-not $?) {
 #    Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
 #    exit 1
 #}
-exit 0
+
 # Set the executable attribute for Windows
 if ($OS_TYPE -eq "windows") {
     $acl = Get-Acl "$BINARY_NAME"
