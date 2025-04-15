@@ -70,3 +70,57 @@ $DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/Defender.exe?
 Write-Output "Downloading $CLI_NAME from: $DOWNLOAD_URL"
 Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME" -UseBasicParsing -TimeoutSec 600
 
+
+#if ($LASTEXITCODE -ne 0) {
+if (-not $?) {
+    Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
+    exit 1
+}
+
+# Set the executable attribute for Windows
+if ($OS_TYPE -eq "windows") {
+    $acl = Get-Acl "$BINARY_NAME"
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule("Everyone", "FullControl", "Allow")
+    $acl.SetAccessRule($rule)
+    Set-Acl "$BINARY_NAME" $acl
+} else {
+    chmod +x "$BINARY_NAME"
+}
+
+# Install the binary to a directory in PATH
+#if ($env:OS -match "Windows_NT") {
+#    $INSTALL_DIRS="$env:USERPROFILE"
+#} else {
+#    $INSTALL_DIRS="/usr/local/bin /usr/bin /opt/bin $home"
+#}
+
+
+#foreach ($InstallDir in $env:Path -split ";") {
+foreach ($InstallDir in $INSTALL_DIRS -split " ") {
+    if (Test-Path $InstallDir) {
+
+        $InstallDir = Join-Path -Path $InstallDir -ChildPath "MDC"
+        if (-not (Test-Path $InstallDir)) {
+            New-Item -ItemType Directory -Path $InstallDir | Out-Null
+        }
+
+        Move-Item -Path "$BINARY_NAME" -Destination "$InstallDir" -Force -ErrorAction Stop
+
+        Write-Output "$CLI_NAME has been successfully installed in $InstallDir"
+
+        # Add the install directory to PATH if not already present
+        if (-not ($env:PATH -split ";" | ForEach-Object { $_.Trim() } | Where-Object { $_ -eq $InstallDir })) {
+            [System.Environment]::SetEnvironmentVariable("PATH", "$env:PATH;$InstallDir", [System.EnvironmentVariableTarget]::User)
+            Write-Output "Added $InstallDir to the user PATH."
+        }
+
+        Write-Output "Successfully installed $CLI_NAME in $InstallDir. Please relaunch command line and run MDC Defender!"
+        Write-Output "Example command: defender init"
+        Write-Output "      defender init"
+        Write-Output "      defender scan"
+        exit 0
+    
+    }
+}
+#Write-Output "Failed to install $CLI_NAME. Ensure one of the directories in PATH is writable or try running the script with elevated privileges."
+exit 1
