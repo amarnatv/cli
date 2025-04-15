@@ -1,4 +1,4 @@
-#!/bin/sh
+# Requires -Version 5.1
 Set-StrictMode -Version Latest
 
 # This script downloads the appropriate binary for MyCLI based on the operating system and architecture, and installs it in a directory in PATH.
@@ -65,9 +65,8 @@ if (-not $ARCH_TYPE) {
     }
 }
 
-#DOWNLOAD_URL="https://example.com/releases/$CLI_NAME/$CLI_VERSION/$OS_TYPE/$ARCH_TYPE/$BINARY_NAME"
 $DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/Defender.exe?raw=true"
-echo "Downloading $CLI_NAME from: $DOWNLOAD_URL"
+Write-Output "Downloading $CLI_NAME from: $DOWNLOAD_URL"
 Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME"
 
 if ($LASTEXITCODE -ne 0) {
