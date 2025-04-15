@@ -72,8 +72,8 @@ Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME" -UseBasicParsing 
 
 #if ($LASTEXITCODE -ne 0) {
 if (-not $?) {
-    Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
-    exit 1
+#    Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
+#    exit 1
 }
 # Set the executable attribute for Windows
 if ($OS_TYPE -eq "windows") {
