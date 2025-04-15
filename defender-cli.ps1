@@ -67,7 +67,7 @@ if (-not $ARCH_TYPE) {
 
 $DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/Defender.exe?raw=true"
 Write-Output "Downloading $CLI_NAME from: $DOWNLOAD_URL"
-Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME"
+Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME" -UseBasicParsing -TimeoutSec 600
 
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
