@@ -75,7 +75,7 @@ Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME" -UseBasicParsing 
 if (-not $?) {
     Write-Output "Failed to download $CLI_NAME. Please check the URL or your network connection."
     Read-Host "Press Enter to exit 1"
-    exit 1
+    return 1
 }
 
 # Set the executable attribute for Windows
@@ -120,10 +120,11 @@ foreach ($InstallDir in $INSTALL_DIRS -split " ") {
         Write-Output "      defender init"
         Write-Output "      defender scan"
         Read-Host "Press Enter to exit 0"
-        exit 0
+        return 0
     
     }
 }
 #Write-Output "Failed to install $CLI_NAME. Ensure one of the directories in PATH is writable or try running the script with elevated privileges."
 Read-Host "Press Enter to exit 1"
-exit 1
+return 1
+
