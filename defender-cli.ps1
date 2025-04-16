@@ -1,4 +1,4 @@
-n# Requires -Version 5.1
+# Requires -Version 5.1
 Set-StrictMode -Version Latest
 
 # This script downloads the appropriate binary for MyCLI based on the operating system and architecture, and installs it in a directory in PATH.
