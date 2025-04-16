@@ -65,7 +65,7 @@ if (-not $ARCH_TYPE) {
     }
 }
 
-$DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/Defender.exe?raw=true"
+$DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/Def1.exe?raw=true"
 #$DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/README.md?raw=true"
 Write-Output "Downloading $CLI_NAME from: $DOWNLOAD_URL"
 Invoke-WebRequest -Uri "$DOWNLOAD_URL" -OutFile "$BINARY_NAME" -UseBasicParsing -TimeoutSec 600
