@@ -61,7 +61,8 @@ INSTALL_DIRS=("$HOME/.local/bin")
 if [ "$OS_TYPE" = "windows" ]; then
     INSTALL_DIRS=("$HOME" "$PROGRAMFILES" "$PROGRAMFILES(X86)")
 fi
-
+echo "Going to install tool "
+ 
 for INSTALL_DIR in "${INSTALL_DIRS[@]}"; do
     if [ -d "$INSTALL_DIR" ]; then
         INSTALL_DIR="$INSTALL_DIR/MDC"
