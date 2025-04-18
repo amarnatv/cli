@@ -83,14 +83,12 @@ for INSTALL_DIR in "${INSTALL_DIRS[@]}"; do
         fi
 
         echo "Successfully installed $CLI_NAME in $INSTALL_DIR. Please relaunch the terminal and run MDC Defender!"
-        echo "Example command: defender init"
+        echo "Example command:"
         echo "      defender init"
         echo "      defender scan"
-        read -p "Press Enter to exit 0"
         exit 0
     fi
 done
 
 echo "Failed to install $CLI_NAME. Ensure one of the directories in PATH is writable or try running the script with elevated privileges."
-read -p "Press Enter to exit 1"
 exit 1
