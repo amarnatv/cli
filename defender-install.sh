@@ -66,7 +66,7 @@ for INSTALL_DIR in "${INSTALL_DIRS[@]}"; do
     if [ -d "$INSTALL_DIR" ]; then
         INSTALL_DIR="$INSTALL_DIR/MDC"
         mkdir -p "$INSTALL_DIR"
-        mv -f "$BINARY_NAME" "$INSTALL_DIR/"
+        sudo mv -f "$BINARY_NAME" "$INSTALL_DIR/"
         echo "$CLI_NAME has been successfully installed in $INSTALL_DIR"
 
         # Add the install directory to PATH if not already present
