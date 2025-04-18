@@ -65,7 +65,9 @@ fi
 for INSTALL_DIR in "${INSTALL_DIRS[@]}"; do
     if [ -d "$INSTALL_DIR" ]; then
         INSTALL_DIR="$INSTALL_DIR/MDC"
+        echo "Going to create  a directory $INSTALL_DIR"
         mkdir -p "$INSTALL_DIR"
+        echo "Created a directory $INSTALL_DIR"
         sudo mv -f "$BINARY_NAME" "$INSTALL_DIR/"
         echo "$CLI_NAME has been successfully installed in $INSTALL_DIR"
 
