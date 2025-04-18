@@ -62,10 +62,14 @@ if [ "$OS_TYPE" = "windows" ]; then
     INSTALL_DIRS=("$HOME" "$PROGRAMFILES" "$PROGRAMFILES(X86)")
 fi
 
+echo "-----------------outside loop"
 for INSTALL_DIR in "${INSTALL_DIRS[@]}"; do
     if [ -d "$INSTALL_DIR" ]; then
         INSTALL_DIR="$INSTALL_DIR/MDC"
+        echo "-----------------PRE MK DIR"
         mkdir -p "$INSTALL_DIR"
+        
+        echo "-----------------after PRE MK DIR"
         if [ -w "$INSTALL_DIR" ]; then
             mv -f "$BINARY_NAME" "$INSTALL_DIR/"
         else
