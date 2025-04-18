@@ -57,7 +57,7 @@ else
 fi
 
 # Install the binary to a directory in PATH
-INSTALL_DIRS=("/usr/local/bin" "/usr/bin" "/opt/bin" "$HOME")
+INSTALL_DIRS=("$HOME/.local/bin")
 if [ "$OS_TYPE" = "windows" ]; then
     INSTALL_DIRS=("$HOME" "$PROGRAMFILES" "$PROGRAMFILES(X86)")
 fi
