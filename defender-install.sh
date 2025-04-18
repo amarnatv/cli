@@ -61,15 +61,19 @@ INSTALL_DIRS=("$HOME/.local/bin")
 if [ "$OS_TYPE" = "windows" ]; then
     INSTALL_DIRS=("$HOME" "$PROGRAMFILES" "$PROGRAMFILES(X86)")
 fi
-echo "Going to install tool "
- 
+
 for INSTALL_DIR in "${INSTALL_DIRS[@]}"; do
     if [ -d "$INSTALL_DIR" ]; then
         INSTALL_DIR="$INSTALL_DIR/MDC"
-        echo "Going to create  a directory $INSTALL_DIR"
         mkdir -p "$INSTALL_DIR"
-        echo "Created a directory $INSTALL_DIR"
-        sudo mv -f "$BINARY_NAME" "$INSTALL_DIR/"
+        if [ -w "$INSTALL_DIR" ]; then
+            mv -f "$BINARY_NAME" "$INSTALL_DIR/"
+        else
+            echo "Error: Insufficient permissions to move $BINARY_NAME to $INSTALL_DIR."
+            echo "Please run the script with elevated privileges or ensure you have write access to $INSTALL_DIR."
+            read -p "Press Enter to exit 1"
+            exit 1
+        fi
         echo "$CLI_NAME has been successfully installed in $INSTALL_DIR"
 
         # Add the install directory to PATH if not already present
