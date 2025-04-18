@@ -38,7 +38,7 @@ if [ "$OS_TYPE" = "windows" ]; then
     BINARY_NAME="${BINARY_NAME}.exe"
 fi
 
-# Set download URL
+#DOWNLOAD_URL="https://raw.githubusercontent.com/amarnatv/cli/main/Defender.exe?raw=true"
 DOWNLOAD_URL="https://github.com/amarnatv/cli/raw/refs/heads/main/Defender-linux"
 echo "Downloading $CLI_NAME from: $DOWNLOAD_URL"
 curl -fLo "$BINARY_NAME" "$DOWNLOAD_URL"
@@ -50,32 +50,45 @@ if [ $? -ne 0 ]; then
 fi
 
 # Make the binary executable
-chmod +x "$BINARY_NAME"
+if [ "$OS_TYPE" = "windows" ]; then
+    chmod +x "$BINARY_NAME"
+else
+    chmod +x "$BINARY_NAME"
+fi
 
 # Install the binary to a directory in PATH
-INSTALL_DIR="$HOME/MDC"
-mkdir -p "$INSTALL_DIR"
-
-if [ -w "$INSTALL_DIR" ]; then
-    mv -f "$BINARY_NAME" "$INSTALL_DIR/"
-else
-    echo "Error: Insufficient permissions to move $BINARY_NAME to $INSTALL_DIR."
-    echo "Please run the script with elevated privileges or ensure you have write access to $INSTALL_DIR."
-    read -p "Press Enter to exit 1"
-    exit 1
+INSTALL_DIRS=("$HOME")
+if [ "$OS_TYPE" = "windows" ]; then
+    INSTALL_DIRS=("$HOME" "$PROGRAMFILES" "$PROGRAMFILES(X86)")
 fi
 
-echo "$CLI_NAME has been successfully installed in $INSTALL_DIR"
+for INSTALL_DIR in "${INSTALL_DIRS[@]}"; do
+    if [ -d "$INSTALL_DIR" ]; then
+        INSTALL_DIR="$INSTALL_DIR/MDC"
+        mkdir -p "$INSTALL_DIR"
+        if [ -w "$INSTALL_DIR" ]; then
+            mv -f "$BINARY_NAME" "$INSTALL_DIR/"
+        else
+            echo "Error: Insufficient permissions to move $BINARY_NAME to $INSTALL_DIR."
+            echo "Please run the script with elevated privileges or ensure you have write access to $INSTALL_DIR."
+            read -p "Press Enter to exit 1"
+            exit 1
+        fi
+        echo "$CLI_NAME has been successfully installed in $INSTALL_DIR"
 
-# Add the install directory to PATH if not already present
-if ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
-    echo "export PATH=\"\$PATH:$INSTALL_DIR\"" >> "$HOME/.bashrc"
-    echo "Added $INSTALL_DIR to the PATH. Please restart your terminal or run 'source ~/.bashrc' to apply the changes."
-fi
+        # Add the install directory to PATH if not already present
+        if ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
+            export PATH="$PATH:$INSTALL_DIR"
+            echo "Added $INSTALL_DIR to the PATH. Please add it to your shell configuration file for persistence."
+        fi
 
-echo "Successfully installed $CLI_NAME in $INSTALL_DIR. Please relaunch the terminal and run MDC Defender!"
-echo "Example command: defender init"
-echo "      defender init"
-echo "      defender scan"
-read -p "Press Enter to exit 0"
-exit 0
+        echo "Successfully installed $CLI_NAME in $INSTALL_DIR. Please relaunch the terminal and run MDC Defender!"
+        echo "Example command:"
+        echo "      defender init"
+        echo "      defender scan"
+        exit 0
+    fi
+done
+
+echo "Failed to install $CLI_NAME. Ensure one of the directories in PATH is writable or try running the script with elevated privileges."
+exit 1
